@@ -1,0 +1,21 @@
+{
+  "name": "er-hospital-mvp",
+  "version": "1.0.0",
+  "description": "부산 수영구 응급실 병원 정보 MVP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["emergency", "hospital", "busan"],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "fast-xml-parser": "^5.2.5"
+  }
+}
