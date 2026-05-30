@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" /> <!-- 메타는 브라우저에게 문서에 대한 정보를 알려주는 코드 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- 이 페이지를 어떻게 보여줄지,페이지를 기기 넓이에 맞게 맞춰서 보여줘라, 처음 화면을 100% 배율로 보여줘라-->
     <title>부산 수영구 응급실 병원</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" /> <!-- css 와의 연결 -->
   </head>
   <body>
     <header class="header">
@@ -13,10 +13,10 @@
     </header>
 
     <main class="main">
-      <p id="status" class="status" aria-live="polite">병원 정보를 불러오는 중…</p>
-      <ul id="hospital-list" class="hospital-list" hidden></ul>
+      <p id="status" class="status" aria-live="polite">병원 정보를 불러오는 중…</p> <!-- aria-live="polite"는 스크린 리더 사용자(시각장애인)에게 적당한 타이밍에 알려주게끔 해주는 코드 -->
+      <ul id="hospital-list" class="hospital-list" hidden></ul> <!-- 이 코드는 히든으로 숨겨놓음 / 처음에는 병원 리스트를 안보여주고 서버에서 정보를 성공적으로 받아오면 화면에 표시(어떤방식으로 하는지 나중에 확인)-->
     </main>
 
-    <script src="/js/app.js"></script>
+    <script src="/js/app.js"></script> <!-- 자바 스크립트 연결-->
   </body>
 </html>
