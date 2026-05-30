@@ -74,6 +74,92 @@ body {
   margin-top: 1rem;
 }
 
+.history-panel {
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.history-panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.accepted-hospital {
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.85rem;
+  padding: 0.75rem;
+}
+
+.accepted-hospital span {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.accepted-hospital small {
+  color: #4f6f52;
+}
+
+.contact-history-list {
+  display: grid;
+  gap: 0.65rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-history-item {
+  align-items: flex-start;
+  background: #f7f9fb;
+  border: 1px solid #e0e6ed;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: auto 1fr;
+  padding: 0.75rem;
+}
+
+.contact-history-item--accepted {
+  border-color: #81c784;
+  background: #f1f8e9;
+}
+
+.history-order {
+  align-items: center;
+  background: #1565c0;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: 700;
+  height: 1.6rem;
+  justify-content: center;
+  width: 1.6rem;
+}
+
+.contact-history-item p {
+  margin: 0.2rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.contact-history-item time,
+.empty-history {
+  color: #777;
+  font-size: 0.82rem;
+}
+
+.empty-history {
+  margin: 0;
+}
+
 .hospital-list {
   list-style: none;
   margin: 0;
@@ -123,6 +209,12 @@ body {
   font-size: 0.82rem;
 }
 
+.score-point {
+  margin-left: 0.25rem;
+  color: #1b5e20;
+  font-weight: 700;
+}
+
 .hospital-card dl {
   margin: 0;
   display: grid;
@@ -148,6 +240,70 @@ body {
   margin-top: 0.75rem;
   font-size: 0.8rem;
   color: #888;
+}
+
+.contact-panel {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.contact-panel button {
+  border: 0;
+  border-radius: 8px;
+  background: #1565c0;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.55rem 0.75rem;
+}
+
+.contact-panel button:disabled {
+  background: #b0bec5;
+  cursor: not-allowed;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contact-status {
+  margin: 0 0 0.6rem;
+  color: #1565c0;
+  font-weight: 700;
+}
+
+.contact-result {
+  margin: 0 0 0.6rem;
+  color: #2e7d32;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.rejection-reason {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.rejection-reason select {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  font: inherit;
+  padding: 0.5rem;
+}
+
+.contact-error {
+  margin: 0.55rem 0 0;
+  color: #c62828;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .exclude-reasons {
