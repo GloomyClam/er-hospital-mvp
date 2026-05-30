@@ -25,8 +25,8 @@ function toHospital(item) { // toHospital 기능, 받는값은 item이다
 
 function mapHospitals(items) { // mapHospitals 기능 items 을 받는다
   if (!items) return []; //  만약 items 이 없다면 빈 배열을 도출하고 함수종료
-  const list = Array.isArray(items) ? items : [items]; // list 공간 할당 = 배열내 isArray애 받은 items을 넣는다 아이템이 배열이면 그대로 넣고 배열이 아니면 감싸서 배열로 넣어라 
-  return list.map(toHospital); // 함수를 도출한다 리스트내의 맵에 toHospital형식으로 저장되는 배열을
+  const list = Array.isArray(items) ? items : [items]; // list 공간 할당 = 배열내 isArray애 받은 items을 넣는다 아이템이 배열이면 그대로 넣고 배열이 아니면 감싸서 배열로 넣어라 .map() 코드를 스기 위해선 무조건 배열이여야함
+  return list.map(toHospital); //리스트 배열 안의 각 아이템을 toHospital 함수로 변환한 새 배열을 돌려준다
 }
 
 module.exports = { mapHospitals, toHospital }; // 기능을 다른곳에서 사용가능하도록한다

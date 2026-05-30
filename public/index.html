@@ -13,8 +13,39 @@
     </header>
 
     <main class="main">
+      <section class="filter-panel" aria-labelledby="patient-status-title">
+        <h2 id="patient-status-title">환자 상태</h2>
+        <div class="patient-options">
+          <label>
+            <input type="radio" name="patient-status" value="general" checked />
+            일반 응급
+          </label>
+          <label>
+            <input type="radio" name="patient-status" value="severe" />
+            중증 환자
+          </label>
+          <label>
+            <input type="radio" name="patient-status" value="surgery" />
+            수술 가능성 있음
+          </label>
+          <label>
+            <input type="radio" name="patient-status" value="admission" />
+            입원 가능성 있음
+          </label>
+        </div>
+      </section>
+
       <p id="status" class="status" aria-live="polite">병원 정보를 불러오는 중…</p> <!-- aria-live="polite"는 스크린 리더 사용자(시각장애인)에게 적당한 타이밍에 알려주게끔 해주는 코드 -->
-      <ul id="hospital-list" class="hospital-list" hidden></ul> <!-- 이 코드는 히든으로 숨겨놓음 / 처음에는 병원 리스트를 안보여주고 서버에서 정보를 성공적으로 받아오면 화면에 표시(어떤방식으로 하는지 나중에 확인)-->
+
+      <section class="hospital-section" aria-labelledby="available-title">
+        <h2 id="available-title">조건을 만족하는 병원</h2>
+        <ul id="hospital-list" class="hospital-list" hidden></ul> <!-- 이 코드는 히든으로 숨겨놓음 / 처음에는 병원 리스트를 안보여주고 서버에서 정보를 성공적으로 받아오면 화면에 표시(어떤방식으로 하는지 나중에 확인)-->
+      </section>
+
+      <section id="excluded-section" class="hospital-section excluded-section" aria-labelledby="excluded-title" hidden>
+        <h2 id="excluded-title">제외된 병원</h2>
+        <ul id="excluded-list" class="hospital-list"></ul>
+      </section>
     </main>
 
     <script src="/js/app.js"></script> <!-- 자바 스크립트 연결-->
