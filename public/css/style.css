@@ -70,87 +70,154 @@ body {
   font-size: 0.95rem;
 }
 
+.patient-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.patient-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.patient-form input,
+.patient-form select,
+.patient-form textarea {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  color: #1a1a1a;
+  font: inherit;
+  padding: 0.55rem 0.65rem;
+  width: 100%;
+}
+
+.patient-form textarea {
+  resize: vertical;
+}
+
+.patient-summary {
+  border-top: 1px solid #e0e6ed;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+}
+
+.patient-summary strong {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.patient-summary dl {
+  display: grid;
+  gap: 0.3rem 0.75rem;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.patient-summary dt {
+  color: #667;
+  font-weight: 700;
+}
+
+.patient-summary dd {
+  margin: 0;
+}
+
+.patient-summary p {
+  color: #777;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
 .hospital-section {
   margin-top: 1rem;
 }
 
 .history-panel {
-  background: #fff;
+  background: #fbfcfe;
   border: 1px solid #d9e2ec;
-  border-radius: 12px;
+  border-radius: 8px;
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 0.85rem;
 }
 
-.history-panel h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
+.history-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.history-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.history-header button {
+  border: 1px solid #b0bec5;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 0.55rem;
 }
 
 .accepted-hospital {
-  border: 1px solid #a5d6a7;
-  border-radius: 8px;
-  background: #e8f5e9;
+  border-left: 3px solid #43a047;
+  background: #f1f8e9;
   color: #1b5e20;
-  display: grid;
-  gap: 0.2rem;
-  margin-bottom: 0.85rem;
-  padding: 0.75rem;
-}
-
-.accepted-hospital span {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.accepted-hospital small {
-  color: #4f6f52;
+  font-size: 0.86rem;
+  margin-bottom: 0.55rem;
+  padding: 0.45rem 0.6rem;
 }
 
 .contact-history-list {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.35rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .contact-history-item {
-  align-items: flex-start;
-  background: #f7f9fb;
-  border: 1px solid #e0e6ed;
-  border-radius: 8px;
+  align-items: baseline;
   display: grid;
-  gap: 0.65rem;
-  grid-template-columns: auto 1fr;
-  padding: 0.75rem;
+  gap: 0.35rem;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  padding: 0.15rem 0;
+  font-size: 0.84rem;
 }
 
 .contact-history-item--accepted {
-  border-color: #81c784;
-  background: #f1f8e9;
-}
-
-.history-order {
-  align-items: center;
-  background: #1565c0;
-  border-radius: 999px;
-  color: #fff;
-  display: inline-flex;
-  font-size: 0.8rem;
+  color: #1b5e20;
   font-weight: 700;
-  height: 1.6rem;
-  justify-content: center;
-  width: 1.6rem;
 }
 
-.contact-history-item p {
-  margin: 0.2rem 0;
+.contact-history-item time {
+  color: #667;
+  white-space: nowrap;
+}
+
+.contact-history-item strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-history-item em {
   color: #555;
-  font-size: 0.9rem;
+  font-style: normal;
 }
 
-.contact-history-item time,
 .empty-history {
   color: #777;
   font-size: 0.82rem;
@@ -248,16 +315,19 @@ body {
   border-top: 1px solid #e0e0e0;
 }
 
-.contact-panel button {
+.contact-panel button,
+.contact-call-button {
   border: 0;
   border-radius: 8px;
   background: #1565c0;
   color: #fff;
   cursor: pointer;
+  display: inline-block;
   font: inherit;
   font-size: 0.9rem;
   font-weight: 700;
   padding: 0.55rem 0.75rem;
+  text-decoration: none;
 }
 
 .contact-panel button:disabled {
@@ -326,5 +396,13 @@ body {
 @media (min-width: 640px) {
   .patient-options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .patient-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .patient-form__wide {
+    grid-column: 1 / -1;
   }
 }

@@ -14,7 +14,7 @@
 
     <main class="main">
       <section class="filter-panel" aria-labelledby="patient-status-title">
-        <h2 id="patient-status-title">환자 상태</h2>
+        <h2 id="patient-status-title">환자 정보</h2>
         <div class="patient-options">
           <label>
             <input type="radio" name="patient-status" value="general" checked />
@@ -33,15 +33,57 @@
             입원 가능성 있음
           </label>
         </div>
+
+        <div class="patient-form">
+          <label>
+            주증상
+            <input id="chief-complaint" name="chiefComplaint" type="text" placeholder="예: 흉통, 호흡곤란" />
+          </label>
+          <label>
+            의식 상태
+            <select id="mental-status" name="mentalStatus">
+              <option value="">선택</option>
+              <option value="alert">Alert</option>
+              <option value="verbal">Verbal</option>
+              <option value="pain">Pain</option>
+              <option value="unresponsive">Unresponsive</option>
+            </select>
+          </label>
+          <label>
+            수축기 혈압
+            <input id="systolic-bp" name="systolicBp" type="number" inputmode="numeric" placeholder="mmHg" />
+          </label>
+          <label>
+            심박수
+            <input id="heart-rate" name="heartRate" type="number" inputmode="numeric" placeholder="회/분" />
+          </label>
+          <label>
+            산소포화도
+            <input id="spo2" name="spo2" type="number" inputmode="numeric" placeholder="%" />
+          </label>
+          <label>
+            체온
+            <input id="temperature" name="temperature" type="number" inputmode="decimal" step="0.1" placeholder="°C" />
+          </label>
+          <label class="patient-form__wide">
+            현장 메모
+            <textarea id="memo" name="memo" rows="3" placeholder="현장 상황, 처치 내용, 보호자 정보 등"></textarea>
+          </label>
+        </div>
+
+        <div id="patient-summary" class="patient-summary" aria-live="polite"></div>
       </section>
 
       <p id="status" class="status" aria-live="polite">병원 정보를 불러오는 중…</p> <!-- aria-live="polite"는 스크린 리더 사용자(시각장애인)에게 적당한 타이밍에 알려주게끔 해주는 코드 -->
 
       <section class="history-panel" aria-labelledby="contact-history-title">
-        <h2 id="contact-history-title">연락 이력</h2>
+        <div class="history-header">
+          <h2 id="contact-history-title">현재 이송 연락 타임라인</h2>
+          <button id="new-transfer-button" type="button">새 이송 시작</button>
+        </div>
         <div id="accepted-hospital" class="accepted-hospital" hidden></div>
         <ol id="contact-history-list" class="contact-history-list"></ol>
-        <p id="empty-contact-history" class="empty-history">아직 기록된 연락 이력이 없습니다.</p>
+        <p id="empty-contact-history" class="empty-history">아직 기록된 연락 타임라인이 없습니다.</p>
       </section>
 
       <section class="hospital-section" aria-labelledby="available-title">
