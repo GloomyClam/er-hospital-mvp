@@ -99,40 +99,6 @@ body {
   resize: vertical;
 }
 
-.patient-summary {
-  border-top: 1px solid #e0e6ed;
-  margin-top: 1rem;
-  padding-top: 0.85rem;
-}
-
-.patient-summary strong {
-  display: block;
-  margin-bottom: 0.45rem;
-}
-
-.patient-summary dl {
-  display: grid;
-  gap: 0.3rem 0.75rem;
-  grid-template-columns: auto 1fr;
-  margin: 0;
-  font-size: 0.88rem;
-}
-
-.patient-summary dt {
-  color: #667;
-  font-weight: 700;
-}
-
-.patient-summary dd {
-  margin: 0;
-}
-
-.patient-summary p {
-  color: #777;
-  font-size: 0.85rem;
-  margin: 0;
-}
-
 .hospital-section {
   margin-top: 1rem;
 }
@@ -391,6 +357,144 @@ body {
 
 .excluded-section {
   margin-top: 1.5rem;
+}
+
+.modal-backdrop {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 20;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.contact-modal {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  max-height: calc(100vh - 2rem);
+  max-width: 560px;
+  overflow: auto;
+  padding: 1rem;
+  width: 100%;
+}
+
+.modal-header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.modal-header h2 {
+  color: #0d47a1;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.modal-header button {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.55rem;
+}
+
+.modal-patient-summary,
+.modal-call-area,
+.modal-result-area {
+  border-top: 1px solid #e0e6ed;
+  padding-top: 0.85rem;
+}
+
+.modal-patient-summary h3,
+.modal-result-area h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.55rem;
+}
+
+.modal-patient-summary dl {
+  display: grid;
+  gap: 0.35rem 0.75rem;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.modal-patient-summary dt {
+  color: #667;
+  font-weight: 700;
+}
+
+.modal-patient-summary dd {
+  margin: 0;
+}
+
+.modal-patient-summary p {
+  color: #777;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.modal-call-area {
+  margin-top: 0.85rem;
+}
+
+.modal-call-button,
+.modal-call-area button,
+.modal-result-buttons button {
+  border: 0;
+  border-radius: 8px;
+  background: #1565c0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.6rem 0.8rem;
+  text-decoration: none;
+}
+
+.modal-call-area button:disabled {
+  background: #b0bec5;
+  cursor: not-allowed;
+}
+
+.modal-result-area {
+  margin-top: 0.85rem;
+}
+
+.modal-result-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modal-rejection-reason {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.modal-rejection-reason select {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  font: inherit;
+  padding: 0.5rem;
 }
 
 @media (min-width: 640px) {

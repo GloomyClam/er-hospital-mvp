@@ -7,8 +7,15 @@ const acceptedHospitalEl = document.getElementById('accepted-hospital');
 const contactHistoryListEl = document.getElementById('contact-history-list');
 const emptyContactHistoryEl = document.getElementById('empty-contact-history');
 const newTransferButtonEl = document.getElementById('new-transfer-button');
-const patientSummaryEl = document.getElementById('patient-summary');
 const patientInputEls = document.querySelectorAll('[name="chiefComplaint"], [name="mentalStatus"], [name="systolicBp"], [name="heartRate"], [name="spo2"], [name="temperature"], [name="memo"]');
+const contactModalEl = document.getElementById('contact-modal');
+const contactModalTitleEl = document.getElementById('contact-modal-title');
+const contactModalCloseEl = document.getElementById('contact-modal-close');
+const modalPatientSummaryEl = document.getElementById('modal-patient-summary');
+const modalCallAreaEl = document.getElementById('modal-call-area');
+const modalRejectionReasonEl = document.getElementById('modal-rejection-reason');
+const modalContactErrorEl = document.getElementById('modal-contact-error');
+const modalResultButtonEls = document.querySelectorAll('[data-modal-result]');
 const CONTACT_STORAGE_KEY = 'erHospitalContactStatuses';
 const CONTACT_HISTORY_STORAGE_KEY = 'erHospitalContactHistory';
 const PATIENT_INFO_STORAGE_KEY = 'erHospitalPatientInfo';
@@ -19,6 +26,7 @@ let contactStatusByHospitalId = loadContactStatuses();
 let contactHistory = loadContactHistory();
 let contactErrorByHospitalId = {};
 let patientInfo = loadPatientInfo();
+let activeModalHospitalId = null;
 
 const patientStatusRules = {
   general: {
@@ -52,8 +60,10 @@ const contactStatusLabels = {
 
 const rejectionReasons = [
   '병상 부족',
-  '해당 환자 수용 불가',
-  '전문의/장비 부재',
+  '전문의 부재',
+  '수술실 불가',
+  '중환자실 부족',
+  '장비 불가',
   '기타',
 ];
 
@@ -72,7 +82,8 @@ function setStatus(message, isError = false) { //setStatus 기능을 새로 만�
 function renderCard(hospital, reasons = [], scoreInfo = null) { // renderCard 기능을 만들고 받는값은 hospital
   const li = document.createElement('li'); //li 값을 저장할 공간을 할당 = 문서 내에 li 요소를 추가로 넣는다 
   li.className = reasons.length ? 'hospital-card hospital-card--excluded' : 'hospital-card';  // li의 클래스 이름은 hospital-card
-  const contactControls = renderContactControls(hospital);
+  // 제외 병원은 현재 선택한 환자 유형의 조건을 만족하지 못했으므로 연락 액션을 숨긴다.
+  const contactControls = reasons.length ? '' : renderContactControls(hospital);
   const phone = getHospitalPhone(hospital);
   const reasonList = reasons
     .map((reason) => `<li>${escapeHtml(reason)}</li>`)
@@ -182,8 +193,8 @@ function readPatientInfoFromForm() {
   return nextPatientInfo;
 }
 
-function renderPatientSummary() {
-  const summaryItems = [
+function getPatientSummaryItems() {
+  return [
     ['환자 유형', patientStatusRules[patientInfo.patientStatus || 'general']?.label || '일반 응급'],
     ['주증상', patientInfo.chiefComplaint],
     ['의식', mentalStatusLabels[patientInfo.mentalStatus] || patientInfo.mentalStatus],
@@ -193,13 +204,6 @@ function renderPatientSummary() {
     ['체온', patientInfo.temperature ? `${patientInfo.temperature}°C` : ''],
     ['메모', patientInfo.memo],
   ].filter(([, value]) => value);
-
-  patientSummaryEl.innerHTML = `
-    <strong>환자 요약</strong>
-    ${summaryItems.length
-      ? `<dl>${summaryItems.map(([label, value]) => `<dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd>`).join('')}</dl>`
-      : '<p>입력된 환자 정보가 없습니다.</p>'}
-  `;
 }
 
 function handlePatientInfoInput() {
@@ -207,7 +211,9 @@ function handlePatientInfoInput() {
   // 나중에 로그인/DB가 붙으면 ambulanceId 또는 transportCaseId 기준 저장으로 바꿔야 한다.
   patientInfo = readPatientInfoFromForm();
   savePatientInfo();
-  renderPatientSummary();
+  if (!contactModalEl.hidden) {
+    renderContactModal();
+  }
   renderHospitalLists();
 }
 
@@ -220,7 +226,7 @@ function getHospitalPhone(hospital) {
 }
 
 function findHospitalName(hospitalId) {
-  return hospitalData.find((hospital) => getHospitalId(hospital) === hospitalId)?.name || '알 수 없는 병원';
+  return hospitalData.find((hospital) => String(getHospitalId(hospital)) === String(hospitalId))?.name || '알 수 없는 병원';
 }
 
 function getActiveCallingHospitalId() {
@@ -229,22 +235,32 @@ function getActiveCallingHospitalId() {
   );
 }
 
+function getAcceptedHospitalId() {
+  return Object.keys(contactStatusByHospitalId).find(
+    (hospitalId) => contactStatusByHospitalId[hospitalId]?.status === 'accepted',
+  );
+}
+
+function findHospitalById(hospitalId) {
+  return hospitalData.find((hospital) => String(getHospitalId(hospital)) === String(hospitalId)) || null;
+}
+
 function renderContactControls(hospital) {
   const hospitalId = getHospitalId(hospital);
   const phone = getHospitalPhone(hospital);
   const contactStatus = contactStatusByHospitalId[hospitalId];
   const activeCallingHospitalId = getActiveCallingHospitalId();
-  const isCallingThisHospital = activeCallingHospitalId === hospitalId;
+  const acceptedHospitalId = getAcceptedHospitalId();
+  const isCallingThisHospital = String(activeCallingHospitalId) === String(hospitalId);
   const isLockedByOtherHospital = activeCallingHospitalId && !isCallingThisHospital;
-  const disabledText = isLockedByOtherHospital ? 'disabled' : '';
-  const rejectionOptions = rejectionReasons
-    .map((reason) => `<option value="${escapeHtml(reason)}">${escapeHtml(reason)}</option>`)
-    .join('');
+  const isAccepted = String(acceptedHospitalId) === String(hospitalId);
+  const disabledReason = isLockedByOtherHospital
+    ? '다른 병원 연락 중'
+    : acceptedHospitalId
+      ? '최종 수락 완료'
+      : '';
   const latestResult = contactStatus && contactStatus.status !== 'calling'
     ? `<p class="contact-result">최근 결과: ${escapeHtml(contactStatusLabels[contactStatus.status])}${contactStatus.rejectionReason ? ` · ${escapeHtml(contactStatus.rejectionReason)}` : ''}</p>`
-    : '';
-  const errorMessage = contactErrorByHospitalId[hospitalId]
-    ? `<p class="contact-error">${escapeHtml(contactErrorByHospitalId[hospitalId])}</p>`
     : '';
 
   // 연락 중인 병원이 있으면 결과를 기록하기 전까지 다른 병원의 연락 액션을 잠근다.
@@ -252,19 +268,7 @@ function renderContactControls(hospital) {
     return `
       <div class="contact-panel" data-hospital-id="${escapeHtml(hospitalId)}">
         <p class="contact-status">연락 중</p>
-        <div class="contact-actions">
-          <button type="button" data-contact-action="accepted">수락</button>
-          <button type="button" data-contact-action="rejected">거절</button>
-          <button type="button" data-contact-action="noAnswer">응답 없음</button>
-        </div>
-        <label class="rejection-reason">
-          거절 사유
-          <select data-rejection-reason>
-            <option value="">거절 사유 선택</option>
-            ${rejectionOptions}
-          </select>
-        </label>
-        ${errorMessage}
+        <button type="button" data-contact-action="openCalling">연락 결과 기록</button>
       </div>
     `;
   }
@@ -272,25 +276,21 @@ function renderContactControls(hospital) {
   return `
     <div class="contact-panel" data-hospital-id="${escapeHtml(hospitalId)}">
       ${latestResult}
-      ${renderCallControl(phone, disabledText)}
+      ${isAccepted ? '' : renderCallControl(phone, disabledReason)}
     </div>
   `;
 }
 
-function renderCallControl(phone, disabledText) {
+function renderCallControl(phone, disabledReason) {
   if (!phone) {
     return '<button type="button" data-contact-action="calling" disabled>전화번호 없음</button>';
   }
 
-  if (disabledText) {
-    return '<button type="button" data-contact-action="calling" disabled>전화하기</button>';
+  if (disabledReason) {
+    return `<button type="button" data-contact-action="calling" disabled>${escapeHtml(disabledReason)}</button>`;
   }
 
-  return `
-    <a class="contact-call-button" data-contact-action="calling" href="tel:${escapeHtml(phone)}">
-      전화하기
-    </a>
-  `;
+  return '<button type="button" data-contact-action="calling">연락하기</button>';
 }
 
 function updateContactStatus(hospitalId, nextStatus, extra = {}) {
@@ -375,6 +375,47 @@ function renderContactHistory() {
   emptyContactHistoryEl.hidden = normalizedHistory.length > 0;
 }
 
+function renderContactModal() {
+  const hospital = findHospitalById(activeModalHospitalId);
+  if (!hospital) return;
+
+  const phone = getHospitalPhone(hospital);
+  const summaryItems = getPatientSummaryItems();
+  contactModalTitleEl.textContent = hospital.name;
+  modalPatientSummaryEl.innerHTML = `
+    <h3>병원 전달용 환자 요약</h3>
+    ${summaryItems.length
+      ? `<dl>${summaryItems.map(([label, value]) => `<dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd>`).join('')}</dl>`
+      : '<p>입력된 환자 정보가 없습니다.</p>'}
+  `;
+  modalCallAreaEl.innerHTML = phone
+    ? `<a class="modal-call-button" href="tel:${escapeHtml(phone)}">전화 연결: ${escapeHtml(phone)}</a>`
+    : '<button type="button" disabled>전화번호 없음</button>';
+  modalRejectionReasonEl.value = '';
+  modalContactErrorEl.hidden = true;
+  modalContactErrorEl.textContent = '';
+}
+
+function openContactModal(hospitalId) {
+  activeModalHospitalId = hospitalId;
+  renderContactModal();
+  contactModalEl.hidden = false;
+}
+
+function closeContactModal({ requireConfirm = true } = {}) {
+  if (
+    requireConfirm &&
+    activeModalHospitalId &&
+    contactStatusByHospitalId[activeModalHospitalId]?.status === 'calling' &&
+    !window.confirm('연락 결과를 기록하지 않았습니다. 닫으시겠습니까?')
+  ) {
+    return;
+  }
+
+  contactModalEl.hidden = true;
+  activeModalHospitalId = null;
+}
+
 function handleContactClick(event) {
   const actionEl = event.target.closest('[data-contact-action]');
   if (!actionEl || actionEl.disabled) return;
@@ -388,32 +429,35 @@ function handleContactClick(event) {
 
   if (action === 'calling') {
     updateContactStatus(hospitalId, 'calling', { startedAt: new Date().toISOString() });
+    openContactModal(hospitalId);
     renderHospitalLists();
     return;
   }
 
-  if (action === 'rejected') {
-    const rejectionReason = panelEl.querySelector('[data-rejection-reason]')?.value;
-    if (!rejectionReason) {
-      contactErrorByHospitalId[hospitalId] = '거절 사유를 선택해야 기록할 수 있습니다.';
-      renderHospitalLists();
-      return;
-    }
+  if (action === 'openCalling') {
+    openContactModal(hospitalId);
+  }
+}
 
-    updateContactStatus(hospitalId, 'rejected', {
-      rejectionReason,
-      completedAt: new Date().toISOString(),
-    });
-    addContactHistory(hospitalId, 'rejected', { rejectionReason });
-    renderContactHistory();
-    renderHospitalLists();
+function saveModalContactResult(resultStatus) {
+  const hospitalId = activeModalHospitalId;
+  if (!hospitalId) return;
+
+  if (resultStatus === 'rejected' && !modalRejectionReasonEl.value) {
+    modalContactErrorEl.textContent = '거절 사유를 선택해야 기록할 수 있습니다.';
+    modalContactErrorEl.hidden = false;
     return;
   }
 
-  updateContactStatus(hospitalId, action, { completedAt: new Date().toISOString() });
-  addContactHistory(hospitalId, action);
+  const rejectionReason = resultStatus === 'rejected' ? modalRejectionReasonEl.value : '';
+  updateContactStatus(hospitalId, resultStatus, {
+    completedAt: new Date().toISOString(),
+    ...(rejectionReason ? { rejectionReason } : {}),
+  });
+  addContactHistory(hospitalId, resultStatus, { rejectionReason });
   renderContactHistory();
   renderHospitalLists();
+  closeContactModal({ requireConfirm: false });
 }
 
 function startNewTransfer() {
@@ -421,11 +465,12 @@ function startNewTransfer() {
   contactHistory = [];
   contactErrorByHospitalId = {};
   patientInfo = { patientStatus: 'general' };
+  activeModalHospitalId = null;
   localStorage.removeItem(CONTACT_STORAGE_KEY);
   localStorage.removeItem(CONTACT_HISTORY_STORAGE_KEY);
   localStorage.removeItem(PATIENT_INFO_STORAGE_KEY);
   applyPatientInfoToForm();
-  renderPatientSummary();
+  contactModalEl.hidden = true;
   renderContactHistory();
   renderHospitalLists();
 }
@@ -594,9 +639,17 @@ patientInputEls.forEach((inputEl) => {
 listEl.addEventListener('click', handleContactClick);
 excludedListEl.addEventListener('click', handleContactClick);
 newTransferButtonEl.addEventListener('click', startNewTransfer);
+contactModalCloseEl.addEventListener('click', () => closeContactModal());
+contactModalEl.addEventListener('click', (event) => {
+  if (event.target === contactModalEl) {
+    closeContactModal();
+  }
+});
+modalResultButtonEls.forEach((buttonEl) => {
+  buttonEl.addEventListener('click', () => saveModalContactResult(buttonEl.dataset.modalResult));
+});
 
 applyPatientInfoToForm();
 patientInfo = readPatientInfoFromForm();
-renderPatientSummary();
 renderContactHistory();
 loadHospitals(); // 실행
