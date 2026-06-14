@@ -19,7 +19,24 @@ function toCoordinate(...values) {
   return null;
 }
 
+function parseCoordinatePair(value) {
+  if (typeof value !== 'string') return { latitude: null, longitude: null };
+
+  // dutyMapimg는 지도 설명 문자열일 수도 있으므로 숫자 좌표 두 개가 명확할 때만 사용한다.
+  const coordinates = value.match(/-?\d+(?:\.\d+)?/g)?.map(Number) || [];
+  if (coordinates.length !== 2) return { latitude: null, longitude: null };
+
+  const [latitude, longitude] = coordinates;
+  if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+    return { latitude: null, longitude: null };
+  }
+
+  return { latitude, longitude };
+}
+
 function toHospital(item) { // toHospital 기능, 받는값은 item이다
+  const mapImageCoordinates = parseCoordinatePair(item.dutyMapimg);
+
   return { // 함수를 도출한다
     id: item.hpid, //  id: 아이템 내의 hpid
     name: item.dutyName, //  name: 아이템 내의 dutyName
@@ -29,8 +46,23 @@ function toHospital(item) { // toHospital 기능, 받는값은 item이다
     totalBeds: Number(item.hvgc) || 0,
     icuBeds: Number(item.hvicc) || 0,
     // 공공 API별 필드명 차이를 고려해 알려진 좌표 후보를 순서대로 확인한다.
-    latitude: toCoordinate(item.wgs84Lat, item.WGS84LAT, item.latitude, item.lat),
-    longitude: toCoordinate(item.wgs84Lon, item.WGS84LON, item.longitude, item.lng, item.lon),
+    latitude: toCoordinate(
+      item.latitude,
+      item.lat,
+      item.wgs84Lat,
+      item.WGS84LAT,
+      item.dutyMapLat,
+      mapImageCoordinates.latitude,
+    ),
+    longitude: toCoordinate(
+      item.longitude,
+      item.lng,
+      item.wgs84Lon,
+      item.WGS84LON,
+      item.dutyMapLon,
+      item.lon,
+      mapImageCoordinates.longitude,
+    ),
     updatedAt: formatUpdatedAt(item.hvidate),// updatedAt formatUpdatedAt 함수를 작동한다 받는 값은 item.hvidate
     seriousDiseaseInfo: null, // 중증질환 API 정보가 없거나 병합되지 않은 병원도 같은 객체 구조를 유지한다.
   };

@@ -777,7 +777,20 @@ function addDistanceScore(scoreInfo, hospital) {
   const distanceKm = getHospitalDistanceKm(hospital);
   const distanceScore = getDistanceScore(distanceKm);
   scoreInfo.breakdown.distanceScore = distanceScore;
-  if (distanceKm === null) return;
+
+  if (distanceKm === null) {
+    console.log(`[거리 계산 생략] ${hospital?.name || '알 수 없는 병원'}: 좌표 없음`);
+    return;
+  }
+
+  // 개발 중 실제 API 좌표와 계산 결과를 브라우저 콘솔에서 병원별로 확인한다.
+  console.log('[거리 점수 확인]', {
+    hospitalName: hospital?.name || '알 수 없는 병원',
+    latitude: hospital?.latitude ?? null,
+    longitude: hospital?.longitude ?? null,
+    distanceKm: Number(distanceKm.toFixed(1)),
+    distanceScore,
+  });
 
   scoreInfo.score += distanceScore;
   scoreInfo.reasons.push({
