@@ -37,6 +37,20 @@
 
         <div class="patient-form" aria-label="선택 환자 정보">
           <label>
+            환자 구분
+            <select id="patient-category" name="patientCategory">
+              <option value="none">선택 안 함</option>
+              <option value="cardiovascular">흉통/심혈관</option>
+              <option value="stroke">뇌졸중 의심</option>
+              <option value="trauma">중증외상</option>
+              <option value="burn">화상</option>
+              <option value="maternity">산모/분만</option>
+              <option value="pediatric">소아 중증</option>
+              <option value="poisoning">중독</option>
+              <option value="other">기타</option>
+            </select>
+          </label>
+          <label>
             주증상
             <input id="chief-complaint" name="chiefComplaint" type="text" placeholder="예: 흉통, 호흡곤란" />
           </label>
