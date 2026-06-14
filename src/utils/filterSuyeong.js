@@ -20,6 +20,7 @@ function toHospital(item) { // toHospital 기능, 받는값은 item이다
     totalBeds: Number(item.hvgc) || 0,
     icuBeds: Number(item.hvicc) || 0,
     updatedAt: formatUpdatedAt(item.hvidate),// updatedAt formatUpdatedAt 함수를 작동한다 받는 값은 item.hvidate
+    seriousDiseaseInfo: null, // 중증질환 API 정보가 없거나 병합되지 않은 병원도 같은 객체 구조를 유지한다.
   };
 }
 

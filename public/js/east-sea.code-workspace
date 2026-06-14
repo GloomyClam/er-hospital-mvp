@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../../../../Desktop/code/east-sea"
+		},
+		{
+			"path": "../../../../Desktop/code/JS"
+		},
+		{
+			"path": "../../../../Desktop/code/server"
+		},
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../Downloads/emergency-mvp"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "east-sea"
+	}
+}

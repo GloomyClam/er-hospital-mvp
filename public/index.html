@@ -15,6 +15,7 @@
     <main class="main">
       <section class="filter-panel" aria-labelledby="patient-status-title">
         <h2 id="patient-status-title">환자 정보</h2>
+        <p class="patient-info-guide">환자 유형만 선택하면 바로 병원을 조회하고 연락할 수 있습니다. 아래 상세 정보는 선택 입력입니다.</p>
         <div class="patient-options">
           <label>
             <input type="radio" name="patient-status" value="general" checked />
@@ -34,7 +35,7 @@
           </label>
         </div>
 
-        <div class="patient-form">
+        <div class="patient-form" aria-label="선택 환자 정보">
           <label>
             주증상
             <input id="chief-complaint" name="chiefComplaint" type="text" placeholder="예: 흉통, 호흡곤란" />
@@ -44,31 +45,49 @@
             <select id="mental-status" name="mentalStatus">
               <option value="">선택</option>
               <option value="alert">Alert</option>
-              <option value="verbal">Verbal</option>
-              <option value="pain">Pain</option>
-              <option value="unresponsive">Unresponsive</option>
+              <option value="drowsy">Drowsy</option>
+              <option value="stupor">Stupor</option>
+              <option value="semiComa">Semi-coma</option>
+              <option value="coma">Coma</option>
             </select>
           </label>
           <label>
-            수축기 혈압
-            <input id="systolic-bp" name="systolicBp" type="number" inputmode="numeric" placeholder="mmHg" />
+            SBP / 수축기 혈압
+            <input id="systolic-bp" name="systolicBp" type="number" inputmode="numeric" min="0" max="300" placeholder="mmHg" />
           </label>
           <label>
-            심박수
-            <input id="heart-rate" name="heartRate" type="number" inputmode="numeric" placeholder="회/분" />
+            DBP / 이완기 혈압
+            <input id="diastolic-bp" name="diastolicBp" type="number" inputmode="numeric" min="0" max="200" placeholder="mmHg" />
           </label>
           <label>
-            산소포화도
-            <input id="spo2" name="spo2" type="number" inputmode="numeric" placeholder="%" />
+            HR / 심박수
+            <input id="heart-rate" name="heartRate" type="number" inputmode="numeric" min="0" max="250" placeholder="/min" />
           </label>
           <label>
-            체온
-            <input id="temperature" name="temperature" type="number" inputmode="decimal" step="0.1" placeholder="°C" />
+            RR / 호흡수
+            <input id="respiratory-rate" name="respiratoryRate" type="number" inputmode="numeric" min="0" max="80" placeholder="/min" />
+          </label>
+          <label>
+            SpO₂ / 산소포화도
+            <input id="spo2" name="spo2" type="number" inputmode="numeric" min="0" max="100" placeholder="%" />
+          </label>
+          <label>
+            BT / 체온
+            <input id="temperature" name="temperature" type="number" inputmode="decimal" min="0" max="45" step="0.1" placeholder="°C" />
+          </label>
+          <label>
+            BST / 혈당
+            <input id="blood-sugar" name="bloodSugar" type="number" inputmode="numeric" min="0" max="999" placeholder="mg/dL" />
+          </label>
+          <label>
+            NRS / 통증 수치
+            <input id="pain-score" name="painScore" type="number" inputmode="numeric" min="0" max="10" step="1" placeholder="0~10" />
           </label>
           <label class="patient-form__wide">
             현장 메모
             <textarea id="memo" name="memo" rows="3" placeholder="현장 상황, 처치 내용, 보호자 정보 등"></textarea>
           </label>
+          <p id="patient-vital-error" class="patient-vital-error patient-form__wide" aria-live="polite" hidden></p>
         </div>
       </section>
 
