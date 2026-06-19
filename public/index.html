@@ -117,6 +117,17 @@
         <p id="empty-contact-history" class="empty-history">아직 기록된 연락 타임라인이 없습니다.</p>
       </section>
 
+      <section class="completed-cases-panel" aria-labelledby="completed-cases-title">
+        <div class="completed-cases-header">
+          <h2 id="completed-cases-title">완료 이송 기록</h2>
+          <button id="export-completed-cases-button" type="button">CSV 내보내기</button>
+        </div>
+        <p class="completed-cases-guide">완료된 이송 기록을 CSV로 내려받아 MVP 검증 자료로 사용할 수 있습니다.</p>
+        <p id="completed-cases-export-message" class="completed-cases-export-message" aria-live="polite" hidden></p>
+        <ol id="completed-cases-list" class="completed-cases-list"></ol>
+        <p id="empty-completed-cases" class="empty-history">완료된 이송 기록이 없습니다.</p>
+      </section>
+
       <section class="hospital-section" aria-labelledby="available-title">
         <h2 id="available-title">조건을 만족하는 병원</h2>
         <ul id="hospital-list" class="hospital-list" hidden></ul> <!-- 이 코드는 히든으로 숨겨놓음 / 처음에는 병원 리스트를 안보여주고 서버에서 정보를 성공적으로 받아오면 화면에 표시(어떤방식으로 하는지 나중에 확인)-->
@@ -126,6 +137,10 @@
         <h2 id="excluded-title">제외된 병원</h2>
         <ul id="excluded-list" class="hospital-list"></ul>
       </section>
+
+      <p class="mvp-notice">
+        ※ 본 화면은 MVP 검증용입니다. 병원 정보는 공공 API 기준이며, 실제 이송 결정 전 병원 통화 확인이 필요합니다.
+      </p>
     </main>
 
     <div id="contact-modal" class="modal-backdrop" hidden>

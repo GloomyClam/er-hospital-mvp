@@ -34,33 +34,45 @@ function parseCoordinatePair(value) {
   return { latitude, longitude };
 }
 
+function getItemValue(item, ...fieldNames) {
+  if (!item || typeof item !== 'object') return undefined;
+  const normalizedItem = Object.fromEntries(
+    Object.entries(item).map(([key, value]) => [key.toLowerCase(), value]),
+  );
+
+  for (const fieldName of fieldNames) {
+    const value = normalizedItem[fieldName.toLowerCase()];
+    if (value !== undefined && value !== null && value !== '') return value;
+  }
+  return undefined;
+}
+
 function toHospital(item) { // toHospital 기능, 받는값은 item이다
-  const mapImageCoordinates = parseCoordinatePair(item.dutyMapimg);
+  const mapImageCoordinates = parseCoordinatePair(getItemValue(item, 'dutyMapimg'));
 
   return { // 함수를 도출한다
-    id: item.hpid, //  id: 아이템 내의 hpid
-    name: item.dutyName, //  name: 아이템 내의 dutyName
-    phone: item.dutyTel3, // phone : 아이템 내의 dutyTel3값
+    id: getItemValue(item, 'hpid'), // API 응답의 대소문자 차이와 관계없이 병원 식별자를 읽는다.
+    name: getItemValue(item, 'dutyName'),
+    phone: getItemValue(item, 'dutyTel3', 'dutyTel1'),
+    address: getItemValue(item, 'dutyAddr') || null,
     generalBeds: Number(item.hvec) || 0, //generalBeds: 아이템 내의hvec 객체를 들고와 숫자로 바꾼다 숫자가 없으면 0을 출력
     surgeryBeds: Number(item.hvoc) || 0,
     totalBeds: Number(item.hvgc) || 0,
     icuBeds: Number(item.hvicc) || 0,
     // 공공 API별 필드명 차이를 고려해 알려진 좌표 후보를 순서대로 확인한다.
     latitude: toCoordinate(
-      item.latitude,
-      item.lat,
-      item.wgs84Lat,
-      item.WGS84LAT,
-      item.dutyMapLat,
+      getItemValue(item, 'latitude'),
+      getItemValue(item, 'lat'),
+      getItemValue(item, 'wgs84Lat'),
+      getItemValue(item, 'dutyMapLat'),
       mapImageCoordinates.latitude,
     ),
     longitude: toCoordinate(
-      item.longitude,
-      item.lng,
-      item.wgs84Lon,
-      item.WGS84LON,
-      item.dutyMapLon,
-      item.lon,
+      getItemValue(item, 'longitude'),
+      getItemValue(item, 'lng'),
+      getItemValue(item, 'wgs84Lon'),
+      getItemValue(item, 'dutyMapLon'),
+      getItemValue(item, 'lon'),
       mapImageCoordinates.longitude,
     ),
     updatedAt: formatUpdatedAt(item.hvidate),// updatedAt formatUpdatedAt 함수를 작동한다 받는 값은 item.hvidate
