@@ -3,16 +3,44 @@
   <head>
     <meta charset="UTF-8" /> <!-- 메타는 브라우저에게 문서에 대한 정보를 알려주는 코드 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- 이 페이지를 어떻게 보여줄지,페이지를 기기 넓이에 맞게 맞춰서 보여줘라, 처음 화면을 100% 배율로 보여줘라-->
-    <title>부산 수영구 응급실 병원</title>
+    <title>부산 응급실 병원 추천</title>
     <link rel="stylesheet" href="/css/style.css" /> <!-- css 와의 연결 -->
   </head>
   <body>
     <header class="header">
-      <h1>부산 수영구 응급실</h1>
+      <h1>부산 응급실 병원 추천</h1>
       <p class="subtitle">실시간 가용 병상 정보 (공공 API)</p>
     </header>
 
     <main class="main">
+      <section class="region-panel" aria-labelledby="region-title">
+        <div>
+          <h2 id="region-title">조회 지역</h2>
+          <p>부산광역시 내 병원을 조회할 구·군을 선택하세요.</p>
+        </div>
+        <label for="region-stage2">
+          구·군
+          <select id="region-stage2">
+            <option value="중구">중구</option>
+            <option value="서구">서구</option>
+            <option value="동구">동구</option>
+            <option value="영도구">영도구</option>
+            <option value="부산진구">부산진구</option>
+            <option value="동래구">동래구</option>
+            <option value="남구">남구</option>
+            <option value="북구">북구</option>
+            <option value="해운대구">해운대구</option>
+            <option value="사하구">사하구</option>
+            <option value="금정구">금정구</option>
+            <option value="강서구">강서구</option>
+            <option value="연제구">연제구</option>
+            <option value="수영구" selected>수영구</option>
+            <option value="사상구">사상구</option>
+            <option value="기장군">기장군</option>
+          </select>
+        </label>
+      </section>
+
       <section class="filter-panel" aria-labelledby="patient-status-title">
         <h2 id="patient-status-title">환자 정보</h2>
         <p class="patient-info-guide">환자 유형만 선택하면 바로 병원을 조회하고 연락할 수 있습니다. 아래 상세 정보는 선택 입력입니다.</p>

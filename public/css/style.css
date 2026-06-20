@@ -44,12 +44,53 @@ body {
   color: #c62828;
 }
 
+.region-panel,
 .filter-panel {
   background: #fff;
   border: 1px solid #d9e2ec;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
+}
+
+.region-panel {
+  align-items: end;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.region-panel h2,
+.region-panel p {
+  margin: 0;
+}
+
+.region-panel h2 {
+  font-size: 1rem;
+}
+
+.region-panel p {
+  color: #667;
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.region-panel label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 12rem;
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.region-panel select {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  color: #1a1a1a;
+  font: inherit;
+  padding: 0.55rem 0.65rem;
+  width: 100%;
 }
 
 .filter-panel h2,
@@ -708,5 +749,16 @@ body {
 
   .patient-form__wide {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 639px) {
+  .region-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .region-panel label {
+    min-width: 0;
   }
 }

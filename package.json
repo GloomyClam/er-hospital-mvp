@@ -1,7 +1,7 @@
 {
   "name": "er-hospital-mvp",
   "version": "1.0.0",
-  "description": "부산 수영구 응급실 병원 정보 MVP",
+  "description": "부산 응급실 병원 추천 MVP",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
