@@ -23,16 +23,24 @@ function getItemValue(item, ...fieldNames) {
   return undefined;
 }
 
+function toOptionalNumber(value) {
+  if (value === undefined || value === null || String(value).trim() === '') return null;
+
+  const numericValue = Number(value);
+  return Number.isFinite(numericValue) ? numericValue : null;
+}
+
 function toHospital(item) {
   return {
     id: getItemValue(item, 'hpid'),
     name: getItemValue(item, 'dutyName'),
     phone: getItemValue(item, 'dutyTel3', 'dutyTel1'),
     address: getItemValue(item, 'dutyAddr') || null,
-    generalBeds: Number(getItemValue(item, 'hvec')) || 0,
-    surgeryBeds: Number(getItemValue(item, 'hvoc')) || 0,
-    totalBeds: Number(getItemValue(item, 'hvgc')) || 0,
-    icuBeds: Number(getItemValue(item, 'hvicc')) || 0,
+    // 0과 값 없음은 현장에서 의미가 다르므로 null을 보존해 프론트에서 "정보 없음"으로 표시한다.
+    generalBeds: toOptionalNumber(getItemValue(item, 'hvec')),
+    surgeryBeds: toOptionalNumber(getItemValue(item, 'hvoc')),
+    totalBeds: toOptionalNumber(getItemValue(item, 'hvgc')),
+    icuBeds: toOptionalNumber(getItemValue(item, 'hvicc')),
     updatedAt: formatUpdatedAt(getItemValue(item, 'hvidate')),
     seriousDiseaseInfo: null,
   };

@@ -107,8 +107,22 @@ body {
 }
 
 .patient-options {
+  border: 0;
   display: grid;
   gap: 0.6rem;
+  margin: 0 0 0.9rem;
+  padding: 0;
+}
+
+.patient-options legend {
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.patient-options--features {
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
 }
 
 .patient-options label {
@@ -116,6 +130,88 @@ body {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.95rem;
+}
+
+.patient-feature-option--other {
+  flex-wrap: wrap;
+  grid-column: span 2;
+}
+
+.patient-feature-other-input {
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  color: #1a1a1a;
+  font: inherit;
+  min-width: 12rem;
+  padding: 0.55rem 0.65rem;
+  flex: 1;
+}
+
+.patient-feature-other-input:disabled {
+  background: #f5f7fa;
+  color: #90a4ae;
+  cursor: not-allowed;
+}
+
+.injury-map-section {
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  background: #fbfcfe;
+  margin: 0.25rem 0 1rem;
+  padding: 0.85rem;
+}
+
+.injury-map-section h3 {
+  color: #333;
+  font-size: 0.95rem;
+  margin: 0 0 0.3rem;
+}
+
+.injury-map-guide {
+  color: #667;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
+}
+
+.injury-map {
+  display: block;
+  margin: 0 auto;
+  max-width: 260px;
+  width: 100%;
+}
+
+.injury-part {
+  cursor: pointer;
+  fill: #e3f2fd;
+  stroke: #1565c0;
+  stroke-width: 2;
+  transition: fill 0.15s ease, stroke 0.15s ease, opacity 0.15s ease;
+}
+
+.injury-part:hover,
+.injury-part:focus {
+  fill: #bbdefb;
+  outline: none;
+}
+
+.injury-part:focus-visible {
+  stroke: #0d47a1;
+  stroke-width: 4;
+}
+
+.injury-part[data-selected="true"] {
+  fill: #ef5350;
+  stroke: #b71c1c;
+}
+
+.selected-injury-parts {
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0.6rem 0 0;
+  text-align: center;
 }
 
 .patient-form {
@@ -150,6 +246,115 @@ body {
 .patient-form input[aria-invalid="true"] {
   border-color: #c62828;
   background: #fff8f8;
+}
+
+.mental-status-options {
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  margin: 0;
+  padding: 0.75rem;
+}
+
+.mental-status-options legend {
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0 0.25rem;
+}
+
+.mental-status-options label {
+  align-items: center;
+  color: #555;
+  display: flex;
+  font-size: 0.88rem;
+  font-weight: 700;
+  gap: 0.45rem;
+}
+
+.mental-status-options input {
+  margin: 0;
+  width: auto;
+}
+
+.pain-score-scale {
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0.75rem;
+}
+
+.pain-score-scale legend {
+  color: #555;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0 0.25rem;
+}
+
+.pain-score-options {
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: repeat(11, minmax(2rem, 1fr));
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+}
+
+.pain-score-option {
+  align-items: center;
+  color: #555;
+  cursor: pointer;
+  display: grid;
+  font-size: 0.8rem;
+  font-weight: 800;
+  gap: 0.25rem;
+  justify-items: center;
+}
+
+.pain-score-option input {
+  margin: 0;
+  width: auto;
+}
+
+.pain-score-option span {
+  border: 1px solid #cfd8dc;
+  border-radius: 999px;
+  min-width: 1.75rem;
+  padding: 0.2rem 0.35rem;
+  text-align: center;
+}
+
+.pain-score-option input:checked + span {
+  background: #0d47a1;
+  border-color: #0d47a1;
+  color: #fff;
+}
+
+.pain-score-line {
+  background:
+    repeating-linear-gradient(
+      to right,
+      #78909c 0,
+      #78909c 2px,
+      transparent 2px,
+      transparent 10%
+    ),
+    linear-gradient(#78909c, #78909c);
+  background-position: left top, left 6px;
+  background-repeat: repeat-x, no-repeat;
+  background-size: 100% 14px, 100% 2px;
+  height: 16px;
+  margin: 0.45rem 0.7rem 0.15rem;
+}
+
+.pain-score-labels {
+  color: #607d8b;
+  display: grid;
+  font-size: 0.78rem;
+  font-weight: 800;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
 }
 
 .patient-vital-error {
@@ -410,19 +615,35 @@ body {
 }
 
 .hospital-card h2 {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.35rem;
   font-size: 1.15rem;
   color: #0d47a1;
 }
 
+.hospital-location {
+  color: #667;
+  font-size: 0.84rem;
+  margin: 0 0 0.75rem;
+}
+
 .resource-score {
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   padding: 0.75rem;
   border: 1px solid #c8e6c9;
   border-radius: 8px;
   background: #f1f8e9;
   color: #2e7d32;
   font-size: 0.9rem;
+}
+
+.reason-summary-panel {
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  background: #fbfcfe;
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  padding: 0.75rem;
 }
 
 .recommendation-score {
@@ -438,10 +659,33 @@ body {
   font-weight: 700;
 }
 
+.reason-summary {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.reason-summary strong {
+  font-size: 0.82rem;
+}
+
+.reason-summary span {
+  color: #4f6f52;
+  font-size: 0.82rem;
+}
+
+.reason-summary--caution span {
+  color: #8a5a00;
+}
+
 .recommendation-reasons {
   border-top: 1px solid #c8e6c9;
   margin-top: 0.65rem;
   padding-top: 0.55rem;
+}
+
+.recommendation-reasons--caution {
+  border-top-color: #ffe0b2;
+  color: #8a5a00;
 }
 
 .recommendation-reasons > strong {
@@ -467,6 +711,37 @@ body {
   font-weight: 700;
 }
 
+.score-point--negative {
+  color: #c62828;
+}
+
+.resource-status {
+  display: inline-block;
+  margin-left: 0.35rem;
+  border-radius: 999px;
+  background: #eceff1;
+  color: #455a64;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.05rem 0.4rem;
+}
+
+.resource-status--available {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.resource-status--caution {
+  background: #fff8e1;
+  color: #8a5a00;
+}
+
+.resource-status--shortage,
+.resource-status--unavailable {
+  background: #ffebee;
+  color: #b71c1c;
+}
+
 .hospital-card dl {
   margin: 0;
   display: grid;
@@ -482,6 +757,68 @@ body {
 
 .hospital-card dd {
   margin: 0;
+}
+
+.hospital-detail-toggle {
+  border: 1px solid #b0bec5;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin-top: 0.75rem;
+  padding: 0.45rem 0.65rem;
+  width: 100%;
+}
+
+.hospital-card-detail {
+  border-top: 1px solid #e0e0e0;
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.hospital-card-detail[hidden] {
+  display: none;
+}
+
+.card-detail-section {
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  background: #fbfcfe;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.card-detail-section--caution {
+  border-color: #ffe0b2;
+  background: #fffaf0;
+}
+
+.card-detail-section > strong {
+  color: #334e68;
+}
+
+.card-detail-section ul,
+.hospital-contact-history {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.hospital-contact-history time {
+  color: #667;
+  margin-right: 0.3rem;
+}
+
+.hospital-contact-history em {
+  color: #8a5a00;
+  font-style: normal;
+  margin-left: 0.3rem;
 }
 
 .serious-disease-info {

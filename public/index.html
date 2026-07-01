@@ -43,56 +43,110 @@
 
       <section class="filter-panel" aria-labelledby="patient-status-title">
         <h2 id="patient-status-title">환자 정보</h2>
-        <p class="patient-info-guide">환자 유형만 선택하면 바로 병원을 조회하고 연락할 수 있습니다. 아래 상세 정보는 선택 입력입니다.</p>
-        <div class="patient-options">
+        <p class="patient-info-guide">환자 특성과 상세 정보는 선택 입력입니다. 필요한 정보만 입력해도 병원을 조회하고 연락할 수 있습니다.</p>
+        <fieldset class="patient-options patient-options--features">
+          <legend>환자 특성</legend>
           <label>
-            <input type="radio" name="patient-status" value="general" checked />
-            일반 응급
+            <input type="checkbox" name="patientFeatures" value="fracture" />
+            골절
           </label>
           <label>
-            <input type="radio" name="patient-status" value="severe" />
-            중증 환자
+            <input type="checkbox" name="patientFeatures" value="trauma" />
+            중증외상
           </label>
           <label>
-            <input type="radio" name="patient-status" value="surgery" />
-            수술 가능성 있음
+            <input type="checkbox" name="patientFeatures" value="stroke" />
+            뇌경색 의심
           </label>
           <label>
-            <input type="radio" name="patient-status" value="admission" />
-            입원 가능성 있음
+            <input type="checkbox" name="patientFeatures" value="cardiac" />
+            심질환 의심
           </label>
-        </div>
+          <label>
+            <input type="checkbox" name="patientFeatures" value="decreasedMental" />
+            의식저하
+          </label>
+          <label>
+            <input type="checkbox" name="patientFeatures" value="pediatric" />
+            소아
+          </label>
+          <label>
+            <input type="checkbox" name="patientFeatures" value="maternity" />
+            산모
+          </label>
+          <label>
+            <input type="checkbox" name="patientFeatures" value="burn" />
+            화상
+          </label>
+          <label>
+            <input type="checkbox" name="patientFeatures" value="amputation" />
+            절단
+          </label>
+          <label id="patient-feature-other-field" class="patient-feature-option--other">
+            <input type="checkbox" name="patientFeatures" value="other" />
+            <span>기타</span>
+            <input
+              id="patient-feature-other"
+              class="patient-feature-other-input"
+              name="patientFeatureOther"
+              type="text"
+              placeholder="기타 선택 시 입력"
+              disabled
+            />
+          </label>
+        </fieldset>
+
+        <section class="injury-map-section" aria-labelledby="injury-map-title">
+          <h3 id="injury-map-title">손상 부위</h3>
+          <p class="injury-map-guide">손상 부위를 누르면 선택됩니다. 여러 부위를 선택할 수 있습니다.</p>
+          <svg class="injury-map" viewBox="0 0 220 420" role="group" aria-label="손상 부위 선택 인체모형">
+            <circle data-injury-part="head" class="injury-part" tabindex="0" role="button" aria-label="머리" aria-pressed="false" cx="110" cy="40" r="28"></circle>
+            <rect data-injury-part="neck" class="injury-part" tabindex="0" role="button" aria-label="목" aria-pressed="false" x="96" y="68" width="28" height="20" rx="8"></rect>
+            <rect data-injury-part="chest" class="injury-part" tabindex="0" role="button" aria-label="가슴" aria-pressed="false" x="75" y="90" width="70" height="75" rx="18"></rect>
+            <rect data-injury-part="abdomen" class="injury-part" tabindex="0" role="button" aria-label="복부" aria-pressed="false" x="80" y="165" width="60" height="70" rx="14"></rect>
+            <rect data-injury-part="pelvis" class="injury-part" tabindex="0" role="button" aria-label="골반" aria-pressed="false" x="78" y="235" width="64" height="40" rx="14"></rect>
+            <rect data-injury-part="leftShoulder" class="injury-part" tabindex="0" role="button" aria-label="왼쪽 어깨" aria-pressed="false" x="45" y="92" width="32" height="32" rx="12"></rect>
+            <rect data-injury-part="rightShoulder" class="injury-part" tabindex="0" role="button" aria-label="오른쪽 어깨" aria-pressed="false" x="143" y="92" width="32" height="32" rx="12"></rect>
+            <rect data-injury-part="leftArm" class="injury-part" tabindex="0" role="button" aria-label="왼팔" aria-pressed="false" x="34" y="125" width="32" height="105" rx="14"></rect>
+            <rect data-injury-part="rightArm" class="injury-part" tabindex="0" role="button" aria-label="오른팔" aria-pressed="false" x="154" y="125" width="32" height="105" rx="14"></rect>
+            <rect data-injury-part="leftHand" class="injury-part" tabindex="0" role="button" aria-label="왼손" aria-pressed="false" x="30" y="230" width="36" height="34" rx="14"></rect>
+            <rect data-injury-part="rightHand" class="injury-part" tabindex="0" role="button" aria-label="오른손" aria-pressed="false" x="154" y="230" width="36" height="34" rx="14"></rect>
+            <rect data-injury-part="leftLeg" class="injury-part" tabindex="0" role="button" aria-label="왼다리" aria-pressed="false" x="78" y="275" width="30" height="105" rx="14"></rect>
+            <rect data-injury-part="rightLeg" class="injury-part" tabindex="0" role="button" aria-label="오른다리" aria-pressed="false" x="112" y="275" width="30" height="105" rx="14"></rect>
+            <rect data-injury-part="leftFoot" class="injury-part" tabindex="0" role="button" aria-label="왼발" aria-pressed="false" x="68" y="378" width="42" height="24" rx="10"></rect>
+            <rect data-injury-part="rightFoot" class="injury-part" tabindex="0" role="button" aria-label="오른발" aria-pressed="false" x="110" y="378" width="42" height="24" rx="10"></rect>
+          </svg>
+          <p id="selected-injury-parts" class="selected-injury-parts">선택된 손상 부위: 없음</p>
+        </section>
 
         <div class="patient-form" aria-label="선택 환자 정보">
-          <label>
-            환자 구분
-            <select id="patient-category" name="patientCategory">
-              <option value="none">선택 안 함</option>
-              <option value="cardiovascular">흉통/심혈관</option>
-              <option value="stroke">뇌졸중 의심</option>
-              <option value="trauma">중증외상</option>
-              <option value="burn">화상</option>
-              <option value="maternity">산모/분만</option>
-              <option value="pediatric">소아 중증</option>
-              <option value="poisoning">중독</option>
-              <option value="other">기타</option>
-            </select>
-          </label>
           <label>
             주증상
             <input id="chief-complaint" name="chiefComplaint" type="text" placeholder="예: 흉통, 호흡곤란" />
           </label>
-          <label>
-            의식 상태
-            <select id="mental-status" name="mentalStatus">
-              <option value="">선택</option>
-              <option value="alert">Alert</option>
-              <option value="drowsy">Drowsy</option>
-              <option value="stupor">Stupor</option>
-              <option value="semiComa">Semi-coma</option>
-              <option value="coma">Coma</option>
-            </select>
-          </label>
+          <fieldset class="mental-status-options patient-form__wide">
+            <legend>의식 상태</legend>
+            <label>
+              <input type="radio" name="mentalStatus" value="alert" />
+              Alert / 명료
+            </label>
+            <label>
+              <input type="radio" name="mentalStatus" value="drowsy" />
+              Drowsy / 기면
+            </label>
+            <label>
+              <input type="radio" name="mentalStatus" value="stupor" />
+              Stupor / 혼미
+            </label>
+            <label>
+              <input type="radio" name="mentalStatus" value="semiComa" />
+              Semi-coma / 반혼수
+            </label>
+            <label>
+              <input type="radio" name="mentalStatus" value="coma" />
+              Coma / 혼수
+            </label>
+          </fieldset>
           <label>
             SBP / 수축기 혈압
             <input id="systolic-bp" name="systolicBp" type="number" inputmode="numeric" min="0" max="300" placeholder="mmHg" />
@@ -121,10 +175,62 @@
             BST / 혈당
             <input id="blood-sugar" name="bloodSugar" type="number" inputmode="numeric" min="0" max="999" placeholder="mg/dL" />
           </label>
-          <label>
-            NRS / 통증 수치
-            <input id="pain-score" name="painScore" type="number" inputmode="numeric" min="0" max="10" step="1" placeholder="0~10" />
-          </label>
+          <fieldset class="pain-score-scale patient-form__wide">
+            <legend>NRS / 통증 수치</legend>
+            <div class="pain-score-options" role="radiogroup" aria-label="NRS 통증 수치 0부터 10까지">
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="0" />
+                <span>0</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="1" />
+                <span>1</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="2" />
+                <span>2</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="3" />
+                <span>3</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="4" />
+                <span>4</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="5" />
+                <span>5</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="6" />
+                <span>6</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="7" />
+                <span>7</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="8" />
+                <span>8</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="9" />
+                <span>9</span>
+              </label>
+              <label class="pain-score-option">
+                <input type="radio" name="painScore" value="10" />
+                <span>10</span>
+              </label>
+            </div>
+            <div class="pain-score-line" aria-hidden="true"></div>
+            <div class="pain-score-labels" aria-hidden="true">
+              <span>없음</span>
+              <span>경증</span>
+              <span>중등도</span>
+              <span>심함</span>
+            </div>
+          </fieldset>
           <label class="patient-form__wide">
             현장 메모
             <textarea id="memo" name="memo" rows="3" placeholder="현장 상황, 처치 내용, 보호자 정보 등"></textarea>
@@ -190,11 +296,16 @@
             거절 사유
             <select id="modal-rejection-reason">
               <option value="">거절 사유 선택</option>
-              <option value="병상 부족">병상 부족</option>
+              <option value="병상 없음">병상 없음</option>
+              <option value="중환자실 없음">중환자실 없음</option>
+              <option value="수술 불가">수술 불가</option>
+              <option value="해당 진료과 없음">해당 진료과 없음</option>
+              <option value="의료진 부재">의료진 부재</option>
               <option value="전문의 부재">전문의 부재</option>
-              <option value="수술실 불가">수술실 불가</option>
-              <option value="중환자실 부족">중환자실 부족</option>
-              <option value="장비 불가">장비 불가</option>
+              <option value="이미 예약된 병상">이미 예약된 병상</option>
+              <option value="보호자 필요">보호자 필요</option>
+              <option value="환자 상태상 수용 불가">환자 상태상 수용 불가</option>
+              <option value="전화 연결 안 됨">전화 연결 안 됨</option>
               <option value="기타">기타</option>
             </select>
           </label>
